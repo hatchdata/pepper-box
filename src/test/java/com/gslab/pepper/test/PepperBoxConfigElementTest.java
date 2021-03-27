@@ -9,7 +9,6 @@ import com.gslab.pepper.config.plaintext.PlainTextConfigElement;
 import com.gslab.pepper.config.serialized.SerializedConfigElement;
 import com.gslab.pepper.input.SchemaProcessor;
 import com.gslab.pepper.util.PropsKeys;
-import net.didion.jwnl.data.Exc;
 import org.apache.jmeter.testbeans.BeanInfoSupport;
 import org.apache.jmeter.threads.JMeterContext;
 import org.apache.jmeter.threads.JMeterContextService;

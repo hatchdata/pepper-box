@@ -42,7 +42,7 @@ public class SchemaTranslator {
 
             //Replace placeholders in template and get java source code
             final String messageGeneratorSource = getTemplateFileContent(PropsKeys.PLAINTEXT_MESSAGE_GENERATOR_TPL).replace(PropsKeys.MSG_GEN_PLC_HLDR, schemExecStatement).replace(PropsKeys.JAVA_CLS_PLC_HLDR, classname);
-
+            System.out.println("msgGeneratorSource: " + messageGeneratorSource);
             //Compile class from java source and load class in jvm
             Class<?> messageIterator = InMemoryJavaCompiler.compileSchemaClass(classname, messageGeneratorSource);
 

@@ -1,17 +1,14 @@
 package com.gslab.pepper.config.serialized;
 
-import com.gslab.pepper.model.FieldExpressionMapping;
 import com.gslab.pepper.input.serialized.ClassPropertyEditor;
+import com.gslab.pepper.model.FieldExpressionMapping;
 import com.gslab.pepper.util.PropsKeys;
 import org.apache.jmeter.testbeans.BeanInfoSupport;
-import org.apache.jmeter.testbeans.TestBeanHelper;
-import org.apache.jmeter.testbeans.gui.*;
-import org.apache.jorphan.logging.LoggingManager;
-import org.apache.log.Logger;
+import org.apache.jmeter.testbeans.gui.TableEditor;
+import org.apache.jmeter.testbeans.gui.TextAreaEditor;
+import org.apache.jmeter.testbeans.gui.TypeEditor;
 
 import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditorManager;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +29,9 @@ public class SerializedConfigElementBeanInfo extends BeanInfoSupport {
     //Message placeholder key
     private static final String PLACE_HOLDER = "placeHolder";
 
+    //Message requestId key
+    private static final String HEADERS = "headers";
+
     /**
      * Constructor which creates property group and creates UI for SerializedConfigElement.
      */
@@ -41,7 +41,7 @@ public class SerializedConfigElementBeanInfo extends BeanInfoSupport {
 
         //Create Property group
         createPropertyGroup("serialized_load_generator", new String[] {
-                PLACE_HOLDER, CLASS_NAME, OBJ_PROPERTIES
+                PLACE_HOLDER, HEADERS, CLASS_NAME, OBJ_PROPERTIES
         });
 
         PropertyDescriptor placeHolderProps = property(PLACE_HOLDER);
@@ -64,6 +64,14 @@ public class SerializedConfigElementBeanInfo extends BeanInfoSupport {
         classNameProps.setValue(NOT_UNDEFINED, Boolean.TRUE);
         classNameProps.setValue(DEFAULT, "<POJO class name>");
 
+        PropertyDescriptor p = property(PLACE_HOLDER);
+        p.setValue(NOT_UNDEFINED, Boolean.TRUE);
+        p.setValue(DEFAULT, PropsKeys.MSG_GEN_PLC_HLDR);
+        p.setValue(NOT_EXPRESSION, Boolean.TRUE);
+
+        p = property(HEADERS);
+        p.setPropertyEditorClass(TextAreaEditor.class);
+        p.setValue(NOT_UNDEFINED, Boolean.TRUE);
     }
 
 }

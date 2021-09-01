@@ -1,7 +1,7 @@
 
 package com.gslab.pepper.sampler;
 
-import com.gslab.pepper.model.PlaintextMessage;
+import com.gslab.pepper.model.KafkaMessage;
 import com.gslab.pepper.util.HeaderUtils;
 import com.gslab.pepper.util.ProducerKeys;
 import com.gslab.pepper.util.PropsKeys;
@@ -155,7 +155,7 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
 
         SampleResult sampleResult = new SampleResult();
         sampleResult.sampleStart();
-        PlaintextMessage message = (PlaintextMessage) JMeterContextService.getContext().getVariables().getObject(placeHolder);
+        KafkaMessage message = (KafkaMessage) JMeterContextService.getContext().getVariables().getObject(placeHolder);
         HeaderUtils headerUtils = new HeaderUtils();
 
         try {

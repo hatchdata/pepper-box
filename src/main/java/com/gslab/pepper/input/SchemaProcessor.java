@@ -47,9 +47,10 @@ public class SchemaProcessor {
      * @throws InstantiationException
      * @throws ClassNotFoundException
      */
-    public Iterator getSerializedMessageIterator(String inputClass, List<FieldExpressionMapping> fieldExpressions) throws PepperBoxException {
+    public Iterator getSerializedMessageIterator(String headers, String inputClass, List<FieldExpressionMapping> fieldExpressions) throws PepperBoxException {
 
+        String processedHeaders = new SchemaParser().getProcessedSchema(headers);
         String execStatements = schemaParser.getProcessedSchema(fieldExpressions);
-        return  schemaTranslator.getSerializedMsgIterator(inputClass, execStatements);
+        return  schemaTranslator.getSerializedMsgIterator(processedHeaders, inputClass, execStatements);
     }
 }

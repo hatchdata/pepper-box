@@ -1,15 +1,15 @@
 package com.gslab.pepper.loadgen.impl;
 
 import com.gslab.pepper.exception.PepperBoxException;
-import com.gslab.pepper.model.FieldExpressionMapping;
 import com.gslab.pepper.input.SchemaProcessor;
 import com.gslab.pepper.loadgen.BaseLoadGenerator;
+import com.gslab.pepper.model.FieldExpressionMapping;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
-import javax.swing.*;
 import java.util.Iterator;
 import java.util.List;
+
 /**
  * The SerializedLoadGenerator is custom load generator class gets invoked from iteratorStart of SerializedConfigElement class
  *
@@ -30,11 +30,11 @@ public class SerializedLoadGenerator implements BaseLoadGenerator {
      * @param inputClass
      * @param fieldExprMappings
      */
-    public SerializedLoadGenerator(String inputClass, List<FieldExpressionMapping> fieldExprMappings) throws PepperBoxException {
+    public SerializedLoadGenerator(String headers, String inputClass, List<FieldExpressionMapping> fieldExprMappings) throws PepperBoxException {
 
         try {
 
-            this.messageIterator = schemaProcessor.getSerializedMessageIterator(inputClass, fieldExprMappings);
+            this.messageIterator = schemaProcessor.getSerializedMessageIterator(headers, inputClass, fieldExprMappings);
 
         }catch (Exception exc){
             log.error("Please make sure that properties data type and expression function return type are compatible with each other", exc);

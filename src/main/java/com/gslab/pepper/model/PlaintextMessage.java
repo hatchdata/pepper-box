@@ -1,27 +1,30 @@
 package com.gslab.pepper.model;
 
-public class PlaintextMessage {
+public class PlaintextMessage implements KafkaMessage {
     String headers;
-    String payload;
+    Object payload;
 
-    public PlaintextMessage(String headers, String payload) {
+    public PlaintextMessage(String headers, Object payload) {
         this.headers = headers;
         this.payload = payload;
     }
 
+    @Override
     public String getHeaders() {
         return headers;
     }
 
+    @Override
     public void setHeaders(String headers) {
         this.headers = headers;
     }
 
-    public String getPayload() {
+    @Override
+    public Object getPayload() {
         return payload;
     }
 
-    public void setPayload(String payload) {
+    public void setPayload(Object payload) {
         this.payload = payload;
     }
 

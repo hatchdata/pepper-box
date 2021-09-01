@@ -26,7 +26,6 @@ import java.beans.PropertyDescriptor;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * Created by satish on 26/2/17.
@@ -50,7 +49,7 @@ public class PepperBoxConfigElementTest {
         plainTextConfigElement.iterationStart(null);
         PlaintextMessage message = (PlaintextMessage) JMeterContextService.getContext().getVariables().getObject(PropsKeys.MSG_PLACEHOLDER);
         JSONObject jsonHeaders = new JSONObject(message.getHeaders());
-        JSONObject jsonMessage = new JSONObject(message.getPayload());
+        JSONObject jsonMessage = new JSONObject(message.getPayload().toString());
         Assert.assertTrue("RequestId not valid", (Integer) jsonHeaders.get("requestId").toString().length() == 36);
         Assert.assertTrue("Payload not valid", (Integer) jsonMessage.get("messageId") > 0);
 
@@ -105,6 +104,7 @@ public class PepperBoxConfigElementTest {
 
         List<FieldExpressionMapping> fieldExpressionMappings = TestInputUtils.getFieldExpressionMappings();
         SerializedConfigElement serializedConfigElement = new SerializedConfigElement();
+        serializedConfigElement.setHeaders(TestInputUtils.testHeaders);
         serializedConfigElement.setClassName("com.gslab.pepper.test.Message");
         serializedConfigElement.setObjProperties(fieldExpressionMappings);
         serializedConfigElement.setPlaceHolder(PropsKeys.MSG_PLACEHOLDER);

@@ -4,6 +4,7 @@ import com.gslab.pepper.PepperBoxLoadGenerator;
 import com.gslab.pepper.exception.PepperBoxException;
 import com.gslab.pepper.input.compile.InMemoryJavaCompiler;
 import com.gslab.pepper.util.PropsKeys;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -67,7 +68,7 @@ public class SchemaTranslator {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public Iterator getSerializedMsgIterator(String pojoClass, String execStatement) throws PepperBoxException {
+    public Iterator getSerializedMsgIterator(String headerExecStatement, String pojoClass, String execStatement) throws PepperBoxException {
 
         try {
 
@@ -75,7 +76,7 @@ public class SchemaTranslator {
             String classname =  PropsKeys.JAVA_CLASS + System.currentTimeMillis();
 
             //Replace placeholders in template and get java source code
-            final String messageGeneratorSource = getTemplateFileContent(PropsKeys.SERIALIZED_MESSAGE_GENERATOR_TPL).replace(PropsKeys.MSG_GEN_PLC_HLDR, execStatement).replace(PropsKeys.JAVA_CLS_PLC_HLDR, classname).replace(PropsKeys.OBJ_CLASS, pojoClass);
+            final String messageGeneratorSource = getTemplateFileContent(PropsKeys.SERIALIZED_MESSAGE_GENERATOR_TPL).replace(PropsKeys.HEADER_GEN_PLC_HLDR, headerExecStatement).replace(PropsKeys.MSG_GEN_PLC_HLDR, execStatement).replace(PropsKeys.JAVA_CLS_PLC_HLDR, classname).replace(PropsKeys.OBJ_CLASS, pojoClass);
 
             //Compile class from java source and load class in jvm
             Class<?> messageIterator = InMemoryJavaCompiler.compileSchemaClass(classname, messageGeneratorSource);

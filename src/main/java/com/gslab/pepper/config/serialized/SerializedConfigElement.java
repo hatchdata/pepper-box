@@ -1,9 +1,8 @@
 package com.gslab.pepper.config.serialized;
 
-import com.gslab.pepper.model.FieldExpressionMapping;
 import com.gslab.pepper.loadgen.BaseLoadGenerator;
 import com.gslab.pepper.loadgen.impl.SerializedLoadGenerator;
-import com.gslab.pepper.util.PropsKeys;
+import com.gslab.pepper.model.FieldExpressionMapping;
 import org.apache.jmeter.config.ConfigTestElement;
 import org.apache.jmeter.engine.event.LoopIterationEvent;
 import org.apache.jmeter.engine.event.LoopIterationListener;
@@ -12,6 +11,7 @@ import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.threads.JMeterVariables;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
+
 import java.util.List;
 
 /**
@@ -32,6 +32,8 @@ public class SerializedConfigElement extends ConfigTestElement implements TestBe
     //Message placeholder key
     private String placeHolder;
 
+    private String headers;
+
     //Serialized object load generator
     private BaseLoadGenerator generator = null;
 
@@ -48,7 +50,7 @@ public class SerializedConfigElement extends ConfigTestElement implements TestBe
             if (generator == null) {
 
                 //instantiate serialized load generator
-                generator = new SerializedLoadGenerator(className, objProperties);
+                generator = new SerializedLoadGenerator(getHeaders(), className, objProperties);
 
             }
 
@@ -83,6 +85,14 @@ public class SerializedConfigElement extends ConfigTestElement implements TestBe
 
     public void setPlaceHolder(String placeHolder) {
         this.placeHolder = placeHolder;
+    }
+
+    public String getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(String headers) {
+        this.headers = headers;
     }
 
     private static final Logger log = LoggingManager.getLoggerForClass();

@@ -49,6 +49,10 @@ public class ProducerKeys {
     public static final String KERBEROS_ENABLED = "kerberos.auth.enabled";
 
     public static final String KERBEROS_ENABLED_DEFULAT = "NO";
+
+    public static final String SSL_ENABLED = "ssl.enabled";
+
+    public static final String FLAG_NO = "NO";
     public static final String FLAG_YES = "YES";
 
 }

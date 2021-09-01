@@ -1,7 +1,6 @@
 
 package com.gslab.pepper.sampler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gslab.pepper.model.PlaintextMessage;
 import com.gslab.pepper.util.HeaderUtils;
 import com.gslab.pepper.util.ProducerKeys;
@@ -16,13 +15,14 @@ import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.header.Header;
-import org.apache.kafka.common.header.internals.RecordHeader;
 import org.apache.log.Logger;
-import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
 
 /**
  * The PepperBoxKafkaSampler class custom java sampler for jmeter.
@@ -73,6 +73,13 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
         defaultParameters.addArgument(ProducerKeys.SASL_KERBEROS_SERVICE_NAME, ProducerKeys.SASL_KERBEROS_SERVICE_NAME_DEFAULT);
         defaultParameters.addArgument(PropsKeys.SASL_MECHANISM, PropsKeys.SASL_MECHANISM_PLAIN);
         defaultParameters.addArgument(PropsKeys.SASL_JAAS_CONFIG, PropsKeys.SASL_JAAS_CONFIG_EXAMPLE);
+        defaultParameters.addArgument(ProducerKeys.SSL_ENABLED, ProducerKeys.FLAG_NO);
+        defaultParameters.addArgument(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "<Keystore Location>");
+        defaultParameters.addArgument(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "<Keystore Password>");
+        defaultParameters.addArgument(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, SslConfigs.DEFAULT_SSL_KEYSTORE_TYPE);
+        defaultParameters.addArgument(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "<Truststore Location>");
+        defaultParameters.addArgument(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "<Truststore Password>");
+        defaultParameters.addArgument(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, SslConfigs.DEFAULT_SSL_TRUSTSTORE_TYPE);
         return defaultParameters;
     }
 
@@ -105,6 +112,17 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
                 props.put(parameter.substring(1), context.getParameter(parameter));
             }
         });
+        String sslEnabled = context.getParameter(ProducerKeys.SSL_ENABLED);
+
+        if (sslEnabled != null && sslEnabled.equals(ProducerKeys.FLAG_YES)) {
+
+            props.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, context.getParameter(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG));
+            props.put(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, context.getParameter(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG));
+            props.put(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG,  context.getParameter(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG));
+            props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, context.getParameter(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG));
+            props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, context.getParameter(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG));
+            props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, context.getParameter(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG));
+        }
         String kerberosEnabled = context.getParameter(ProducerKeys.KERBEROS_ENABLED);
         if (kerberosEnabled != null && kerberosEnabled.equals(ProducerKeys.FLAG_YES)) {
             props.put(PropsKeys.SASL_MECHANISM, context.getParameter(PropsKeys.SASL_MECHANISM));
